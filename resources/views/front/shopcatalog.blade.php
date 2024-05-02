@@ -1,15 +1,13 @@
 @extends('front.layouts.shop')
 @section('shopcontent')
-
-
     <!-- start main -->
     <main role="main">
         <!-- Common styles
-                                                                                ================================================== -->
+                                                                                    ================================================== -->
         <link rel="stylesheet" href="{{ asset('front') }}/css/style.min.css" type="text/css">
 
         <!-- Load lazyLoad scripts
-                                                                                ================================================== -->
+                                                                                    ================================================== -->
         <script>
             (function(w, d) {
                 var m = d.getElementsByTagName('main')[0],
@@ -56,7 +54,7 @@
 
             <div class="container">
                 <h1 style="color: black;"><span>AGRIMECHA Shop </span><strong style="font-weight: bold;">Catalog</strong></h1>
-<br>
+                <br>
                 <!-- start goods catalog -->
                 <div class="goods-catalog">
                     <div class="row">
@@ -184,7 +182,8 @@
                                                         <!-- Lazy-loaded image -->
                                                         <img class="lazy" width="188"
                                                             src="{{ asset('front/img/products_img') }}/{{ $model->image }}"
-                                                            data-src="{{ asset('front/img/products_img') }}/{{ $model->image }}" alt="demo" />
+                                                            data-src="{{ asset('front/img/products_img') }}/{{ $model->image }}"
+                                                            alt="demo" />
                                                     </figure>
 
                                                     <!-- Product content -->
@@ -199,7 +198,7 @@
                                                         <div class="__category">
                                                             <a
                                                                 href="{{ route('front.singleproduct', ['product' => $model->id]) }}">
-                                                                {{$model->category->name}}
+                                                                {{ $model->category->name }}
                                                             </a>
                                                         </div>
 
@@ -211,10 +210,17 @@
                                                         </div>
 
                                                         <!-- Add to cart button -->
-                                                        <button
-                                                            class="custom-btn custom-btn--medium custom-btn--style-1 add-to-cart-btn"
-                                                            data-product-id="{{ $model->id }}"><i
-                                                                class="fontello-shopping-bag"></i>Add to cart</button>
+                                                        @if ($model->quantity == 0)
+                                                            <button
+                                                                class="custom-btn custom-btn--medium custom-btn--style-6 add-to-cart-btn"
+                                                                data-product-id="{{ $model->id }}" disabled><i
+                                                                    class="fontello-shopping-bag"></i>Out Of Stock</button>
+                                                        @else
+                                                            <button
+                                                                class="custom-btn custom-btn--medium custom-btn--style-1 add-to-cart-btn"
+                                                                data-product-id="{{ $model->id }}"><i
+                                                                    class="fontello-shopping-bag"></i>Add to cart</button>
+                                                        @endif
                                                     </div>
 
                                                     <!-- Sale label (if applicable) -->
@@ -231,57 +237,7 @@
 
 
                             <!-- Listen for click events on Add to Cart buttons -->
-                            <script>
-                                document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-                                    button.addEventListener('click', function(event) {
-                                        event.preventDefault(); // Prevent the default form submission
-
-                                        // Extract the product ID from the button's data attribute
-                                        const productId = this.getAttribute('data-product-id');
-                                        // Call the addToCart function with the extracted product ID
-                                        addToCart(productId);
-                                    });
-                                });
-
-                                // Function to add product to cart using AJAX
-                                function addToCart(productId) {
-                                    // AJAX request to add the product to the cart
-                                    fetch('{{ route('front.addtoCart', ':productId') }}'.replace(':productId', productId), {
-                                            method: 'POST', // Send a POST request
-                                            headers: {
-                                                'Content-Type': 'application/json', // Set the content type to JSON
-                                                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Add CSRF token for Laravel security
-                                            }
-                                        })
-                                        .then(response => {
-                                            // Check if the response is successful
-                                            if (response.ok) {
-                                                // Parse the JSON response
-                                                return response.json();
-                                            }
-                                            // Throw an error if the response is not successful
-                                            throw new Error('Failed to add product');
-                                        })
-                                        .then(data => {
-                                            // Handle success response (if needed)
-
-                                            console.log(data); // Log the response data
-                                            alert('Product Added Successfuly')
-                                            // Echo.private(`cart-channel`)
-                                            // .listen('.cart.quantity.updated', (event) => {
-                                            //     console.log('Received CartUpdated event:', event);
-                                            //     console.log('Cart count:', event.cartCount);
-                                            //     // Update the cart count in the UI
-                                            //     document.getElementById('cart-count').innerText = event.cartCount;
-                                            // });
-                                        })
-                                        .catch(error => {
-                                            // Handle error (if needed)
-                                            console.error(error); // Log the error
-                                            alert('Failed to add product to cart');
-                                        });
-                                }
-                            </script>
+                            @include('front.styles.addtocartscript')
 
 
 

@@ -122,14 +122,22 @@
                                         </li>
                                         <li class="li-btn">
                                             @guest
-                                                <a class="custom-btn custom-btn--small custom-btn--style-4" href="{{ route('login') }}">Login</a>
+                                            <a class="custom-btn custom-btn--small custom-btn--style-4"
+                                                href="{{ route('login') }}">Login</a>
+                                        @else
+                                            @if (auth()->user()->role == 'admin')
+                                            <a class="custom-btn custom-btn--small custom-btn--style-4" href="{{ route('admin.home') }}">Admin Dashboard</a>
+
                                             @else
-                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                    style="display: none;">
                                                     @csrf
                                                 </form>
-                                                <a class="custom-btn custom-btn--small custom-btn--style-4" href="{{ route('logout') }}"
+                                                <a class="custom-btn custom-btn--small custom-btn--style-4"
+                                                    href="{{ route('logout') }}"
                                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
-                                            @endguest
+                                            @endif
+                                        @endguest
                                         </li>
 
                                     </ul>

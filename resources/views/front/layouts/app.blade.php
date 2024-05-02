@@ -91,14 +91,14 @@
                                         <a href="{{ route('front.productdetails') }}">Product Details</a>
                                     </li> --}}
 
-                                        <li class="has-submenu">
-                                            <a href="javascript:void(0);">Shop</a>
+                                    <li class="has-submenu">
+                                        <a href="javascript:void(0);">Shop</a>
 
-                                            <ul class="submenu">
-                                                <li><a href="{{ route('front.shopcatalog') }}">Shop Catalog</a></li>
-                                                <li><a href="{{ route('front.cart') }}">Cart</a>
-                                            </ul>
-                                        </li>
+                                        <ul class="submenu">
+                                            <li><a href="{{ route('front.shopcatalog') }}">Shop Catalog</a></li>
+                                            <li><a href="{{ route('front.cart') }}">Cart</a>
+                                        </ul>
+                                    </li>
 
 
                                     <li>
@@ -110,21 +110,29 @@
                                     </li>
 
                                     <li class="li-cart">
-                                        <a href="{{ route('front.cart') }}"><i
-                                                class="fontello-shopping-bag"></i><span id="cart-count"
-                                                class="total li-cart1"></span></a>
+                                        <a href="{{ route('front.cart') }}"><i class="fontello-shopping-bag"></i><span
+                                                id="cart-count" class="total li-cart1"></span></a>
                                     </li>
                                     <li class="li-btn">
                                         @guest
-                                            <a class="custom-btn custom-btn--small custom-btn--style-4" href="{{ route('login') }}">Login</a>
+                                            <a class="custom-btn custom-btn--small custom-btn--style-4"
+                                                href="{{ route('login') }}">Login</a>
                                         @else
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                                @csrf
-                                            </form>
-                                            <a class="custom-btn custom-btn--small custom-btn--style-4" href="{{ route('logout') }}"
-                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                            @if (auth()->user()->role == 'admin')
+                                            <a class="custom-btn custom-btn--small custom-btn--style-4" href="{{ route('admin.home') }}">Admin Dashboard</a>
+
+                                            @else
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                    style="display: none;">
+                                                    @csrf
+                                                </form>
+                                                <a class="custom-btn custom-btn--small custom-btn--style-4"
+                                                    href="{{ route('logout') }}"
+                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                            @endif
                                         @endguest
                                     </li>
+
 
                                 </ul>
                             </nav>
@@ -179,20 +187,23 @@
                         </div>
                     </div>
 
-						<div class="col-12 col-lg-5 col-xl-4 offset-xl-1">
-							<div class="footer__item">
-								<h5 class=" footer__item__title h6">Get a newslatter</h5>
+                    <div class="col-12 col-lg-5 col-xl-4 offset-xl-1">
+                        <div class="footer__item">
+                            <h5 class=" footer__item__title h6">Get a newslatter</h5>
 
-								<form class="form--horizontal" method="POST" action="{{route(('admin.AddSubsription.add'))}}">
-                                    @CSRF
-									<div class="input-wrp">
-										<input class="textfield" name="email" type="text" placeholder="Your E-mail" />
-									</div>
+                            <form class="form--horizontal" method="POST"
+                                action="{{ route('admin.AddSubsription.add') }}">
+                                @CSRF
+                                <div class="input-wrp">
+                                    <input class="textfield" name="email" type="text"
+                                        placeholder="Your E-mail" />
+                                </div>
 
-									<button class="custom-btn custom-btn--medium custom-btn--style-1" type="submit" role="button">subscribe</button>
-								</form>
-							</div>
-						</div>
+                                <button class="custom-btn custom-btn--medium custom-btn--style-1" type="submit"
+                                    role="button">subscribe</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row flex-lg-row-reverse">

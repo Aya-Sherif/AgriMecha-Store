@@ -7,11 +7,11 @@
     <!-- start main -->
     <main role="main">
         <!-- Common styles
-                                                                        ================================================== -->
+                                                                                ================================================== -->
         <link rel="stylesheet" href="{{ asset('front') }}/css/style.min.css" type="text/css">
 
         <!-- Load lazyLoad scripts
-                                                                        ================================================== -->
+                                                                                ================================================== -->
         <script>
             (function(w, d) {
                 var m = d.getElementsByTagName('main')[0],
@@ -64,7 +64,9 @@
                             <div class="row">
                                 <div class="col-12 col-lg-6">
                                     <div class="__product-img">
-                                        <img width="330" src="{{asset('front/img/products_img') }}/{{ $product->image }}" alt="demo" />
+                                        <img width="330"
+                                            src="{{ asset('front/img/products_img') }}/{{ $product->image }}"
+                                            alt="demo" />
 
                                         <span class="product-label product-label--new">New</span>
                                     </div>
@@ -103,10 +105,17 @@
                                                     min="1" />
                                                 <span class="__btn __btn--plus"></span>
                                             </div>
-                                            <button class="custom-btn custom-btn--medium custom-btn--style-1" type="submit"
-                                                role="button">
-                                                <i class="fontello-shopping-bag"></i>Add to Cart
-                                            </button>
+                                            @if ($product->quantity == 0)
+                                                <button class="custom-btn custom-btn--medium custom-btn--style-6"
+                                                    type="submit" role="button" disabled>
+                                                    <i class="fontello-shopping-bag"></i>Out of Stock
+                                                </button>
+                                            @else
+                                                <button class="custom-btn custom-btn--medium custom-btn--style-1"
+                                                    type="submit" role="button">
+                                                    <i class="fontello-shopping-bag"></i>Add to Cart
+                                                </button>
+                                            @endif
                                         </form>
 
                                     </div>
@@ -302,11 +311,11 @@
 
                                                             // Format the date
                                                             const formattedDate = new Date(data.created_at).toLocaleDateString(
-                                                            'en-US', {
-                                                                year: 'numeric',
-                                                                month: 'long',
-                                                                day: 'numeric'
-                                                            });
+                                                                'en-US', {
+                                                                    year: 'numeric',
+                                                                    month: 'long',
+                                                                    day: 'numeric'
+                                                                });
 
                                                             // Create HTML markup for the comment with formatted date
                                                             const commentHTML = `
@@ -374,8 +383,9 @@
                                             <div class="__item">
                                                 <figure class="__image">
                                                     <img class="lazy" width="180"
-                                                        src="{{asset('front/img/products_img') }}/{{ $relatedProduct->image }}"
-                                                        data-src="{{asset('front/img/products_img') }}/{{ $relatedProduct->image }}" alt="demo" />
+                                                        src="{{ asset('front/img/products_img') }}/{{ $relatedProduct->image }}"
+                                                        data-src="{{ asset('front/img/products_img') }}/{{ $relatedProduct->image }}"
+                                                        alt="demo" />
                                                 </figure>
 
                                                 <div class="__content">
@@ -395,14 +405,28 @@
                                                             $</span>
                                                     </div>
 
-                                                    <a class="custom-btn custom-btn--medium custom-btn--style-1"
-                                                        href="#"><i class="fontello-shopping-bag"></i>Add to
-                                                        cart</a>
+                                                    @if ($relatedProduct->quantity == 0)
+                                                            <button
+                                                                class="custom-btn custom-btn--medium custom-btn--style-6 add-to-cart-btn"
+                                                                data-product-id="{{ $relatedProduct->id }}" disabled><i
+                                                                    class="fontello-shopping-bag"></i>Out Of Stock</button>
+                                                        @else
+                                                            <button
+                                                                class="custom-btn custom-btn--medium custom-btn--style-1 add-to-cart-btn"
+                                                                data-product-id="{{ $relatedProduct->id }}"><i
+                                                                    class="fontello-shopping-bag"></i>Add to cart</button>
+                                                        @endif
+
+
+
                                                 </div>
 
                                             </div>
                                         </div>
                                     @endforeach
+                                @include('front.styles.addtocartscript')
+
+
                                     <!-- end item -->
                                 </div>
                             </div>

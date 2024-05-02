@@ -7,11 +7,11 @@
     <!-- start main -->
     <main role="main">
         <!-- Common styles
-                                                                                ================================================== -->
+                                                                                                ================================================== -->
         <link rel="stylesheet" href="{{ asset('front') }}/css/style.min.css" type="text/css">
 
         <!-- Load lazyLoad scripts
-                                                                                ================================================== -->
+                                                                                                ================================================== -->
         <script>
             (function(w, d) {
                 var m = d.getElementsByTagName('main')[0],
@@ -68,7 +68,7 @@
                                         <thead>
                                             <tr>
                                                 <td width="10%">&nbsp;</td>
-                                                <td width="35%">added products</td>
+                                                <td width="35%">Added products</td>
                                                 <td width="15%">Price</td>
                                                 <td width="20%">Quantity</td>
                                                 <td width="15%">Total</td>
@@ -82,8 +82,9 @@
                                                         <td>
                                                             <figure class="__image">
                                                                 <a href="#">
-                                                                    <img class="lazy" src="{{asset('front/img/products_img') }}/{{$cartproduct['image']}}"
-                                                                        data-src="{{asset('front/img/products_img') }}/{{$cartproduct['image']}}"
+                                                                    <img class="lazy"
+                                                                        src="{{ asset('front/img/products_img') }}/{{ $cartproduct['image'] }}"
+                                                                        data-src="{{ asset('front/img/products_img') }}/{{ $cartproduct['image'] }}"
                                                                         alt="demo" />
                                                                 </a>
                                                             </figure>
@@ -110,11 +111,13 @@
                                                         </td>
 
                                                         <td>
-                                                            <span class="__total"> {{ $cartproduct['totalprice'] }} $</span>
+                                                            <span class="__total"> {{ $cartproduct['totalprice'] }}
+                                                                $</span>
                                                         </td>
 
                                                         <td>
-                                                            <a class="__remove" href="{{ route('front.removeItem', $key) }}"
+                                                            <a class="__remove"
+                                                                href="{{ route('front.removeItem', $key) }}"
                                                                 aria-label="Remove this item"
                                                                 data-productId="{{ $key }}">
                                                                 <i class="fontello-cancel"></i>
@@ -193,13 +196,15 @@
                                             })
                                             .then(function(response) {
                                                 if (!response.ok) {
-                                                    throw new Error('Failed to add product');
+                                                    throw new Error('Failed to Edit the product');
+                                                    console.log(error)
                                                 }
                                                 return response.json();
                                             })
                                             .then(function(data) {
                                                 // Handle success response
                                                 // For example, update the UI to reflect the changes
+                                                console.log(data)
                                             })
                                             .catch(function(error) {
                                                 console.error('There was a problem with the fetch operation:', error);
@@ -225,7 +230,25 @@
                                                     <tr>
                                                         <td colspan="2">
                                                             <h3>CART <span>TOTALS</span></h3>
+                                                            @if (session()->has('cart'))
+                                                                @foreach (session()->get('cart') as $key => $cartproduct)
+                                                    <tr>
+
+                                                        <td width="75%">
+                                                            {{ $cartproduct['product_name'] }}
                                                         </td>
+
+                                                        <td width="25%">
+                                                            {{ $cartproduct['totalprice'] . 'E£' }}
+                                                        </td>
+
+
+
+                                                    </tr>
+                                                    @endforeach
+                                                    @endif
+
+                                                    </td>
                                                     </tr>
                                                 </thead>
 
@@ -244,7 +267,7 @@
                                                     <tr>
                                                         <td>Total</td>
                                                         <td>
-                                                        <a href="{{route('front.showCart')}}">{{session()->get('total')}}</a>
+                                                            {{ $total."E£" }}
                                                         </td>
                                                     </tr>
                                                 </tbody>

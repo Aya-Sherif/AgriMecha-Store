@@ -53,7 +53,7 @@ Route::name('admin.')->group(function () {
 
 Route::name('front.')->group(function () {
     // Route::middleware(['auth','user'])->group(function(){
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/contact', [ContactController::class, 'index'])->name('contact');
     Route::post('/sendMessage', [ContactController::class, 'sendMessage'])->name('contact.sendMessage');
     Route::get('/blog', [BlogController::class, 'index'])->name('blog');
@@ -74,4 +74,4 @@ Route::name('front.')->group(function () {
 Route::get('/pdf/{filename}', 'PDFController@show')->name('pdf.show');
 
 Auth::routes();
-// Route::get('/', [HomeController::class, 'index'])->name('front.home');
+ Route::get('/', [HomeController::class, 'index'])->name('front.home');

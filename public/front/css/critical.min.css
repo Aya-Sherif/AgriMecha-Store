@@ -1817,6 +1817,18 @@ a:hover {
     border-color: #1d7151;
     color: #f5fff5;
 }
+.custom-btn.custom-btn--style-6 {
+    background-color: #898787;
+    border-color: #625d5d;
+    color: #f5fff5;
+}
+/* .custom-btn.custom-btn--style-5:focus,
+.custom-btn.custom-btn--style-5:hover {
+    background-color: #1d7151;
+    border-color: #1d7151;
+    color: #f5fff5;
+} */
+
 .custom-btn.wide {
     width: 100%;
 }

@@ -9,16 +9,17 @@ use Illuminate\Http\Request;
 class CartController extends Controller
 {
     //
-    function index()
+    function index(Cart $cartModel)
     {
-        return view('front.cart'); // Pass cart data and total to the view
+        $cart = session()->get('cart', []); // Retrieve cart data from session
+        $total = $cartModel->calculateTotal($cart); // Calculate total using model method
+        return view('front.cart',compact('total')); // Pass cart data and total to the view
     }
     public function showCart(Cart $cartModel)
     {
         $cart = session()->get('cart', []); // Retrieve cart data from session
         $total = $cartModel->calculateTotal($cart); // Calculate total using model method
-dd($total);
-    //    return redirect()->route('front.cart')->with('total',$total); // Pass cart data and total to the view
+        return redirect()->route('front.cart')->with('total', $total); // Pass cart data and total to the view
     }
 
     public function addToCart(Request $request, $productId)
@@ -45,10 +46,10 @@ dd($total);
         // Store the updated cart in the session
         session()->put('cart', $cart);
 
-        return response()->json(['success' => true]);
+        return response()->json(['success' =>  true]);
     }
 
-    public function removeFromCart($productId)
+    public function removeFromCart($productId,Cart $cartModel)
     {
 
         // Check if the product exists in the cart
@@ -61,8 +62,10 @@ dd($total);
 
                 // Update the session cart
                 session()->put('cart', $cart);
+                $cart = session()->get('cart', []); // Retrieve cart data from session
+                $total = $cartModel->calculateTotal($cart); // Calculate total using model method
 
-                return view("front.cart")->with('success', "Success");
+                return view("front.cart",compact('total'))->with('success', "Success");
             } else {
 
                 return view("front.cart")->with('error', "Error!!!");
