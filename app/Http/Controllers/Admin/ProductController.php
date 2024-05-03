@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Category;
+use App\Models\OrderProduct;
 use App\Models\PModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -50,7 +51,11 @@ class ProductController extends Controller
 
         // Handle file upload for PDF file
         if ($request->hasFile('pdf_file')) {
-            $pdfPath = $request->file('pdf_file')->storeAs('pdfs', Str::uuid() . '.pdf');
+            $pdfPath = $request->file('pdf_file');
+            $extention = $pdfPath->getClientOriginalExtension();
+            $filename = time() . "." . $extention;
+            $pdfPath->move('front/pdf/products_pdf/', $filename);
+
             $validatedData['pdf_file'] = $pdfPath;
         }
 
@@ -61,7 +66,6 @@ class ProductController extends Controller
             $filename = time() . "." . $extention;
             $file->move('front/img/products_img/', $filename);
             $validatedData['image'] = $filename;
-            //  dd($validatedData['image']);
         }
 
         // Serialize additional data into JSON format
@@ -117,7 +121,7 @@ class ProductController extends Controller
             'productname' => 'required|string',
             'name' => 'required|string',
             'price' => 'required|numeric',
-            'quantity'=>'required|numeric',
+            'quantity' => 'required|numeric',
             'description' => 'required|string',
             'pdf_file' => 'nullable|file|mimes:pdf',
             // Add validation rules for other fields as needed
@@ -129,7 +133,11 @@ class ProductController extends Controller
 
         // Handle file upload for PDF file
         if ($request->hasFile('pdf_file')) {
-            $pdfPath = $request->file('pdf_file')->storeAs('pdfs', Str::uuid() . '.pdf');
+            $pdfPath = $request->file('pdf_file');
+            $extention = $pdfPath->getClientOriginalExtension();
+            $filename = time() . "." . $extention;
+            $pdfPath->move('front/pdf/products_pdf/', $filename);
+
             $validatedData['pdf_file'] = $pdfPath;
         } else {
             $validatedData['pdf_file'] = $product->pdf_file;
@@ -163,7 +171,7 @@ class ProductController extends Controller
         $product->update($validatedData);
 
         // Redirect to a success page or do any other necessary actions
-        return redirect()->route('admin.products.index', $product->id)->with('success', __("admin.updated"));
+        return redirect()->toroute('admin.products.index', $product->id)->with('success', __("admin.updated"));
     }
 
 
@@ -172,11 +180,11 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
-     //   dd($pmodel);
-     PModel::destroy($id);
-     // dd($pmodel);
+        $ordersRelated=OrderProduct::where('product_id'==$id);
+        //dd($ordersRelated);
+        // RecivedOrderController::updateorderstat('canceled',$id);
 
+        PModel::destroy($id);
         return back()->with("success", __("admin.deleted"));
     }
 }

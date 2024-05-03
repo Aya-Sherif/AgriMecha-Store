@@ -27,6 +27,7 @@
               <li><a href="{{route('admin.products.create')}}">Add new module</a></li>
           </ul>
         </li>
+        <li><a href="{{route('admin.recivedorders')}}">Orders</a></li>
         <li><a href="{{route('admin.subscription')}}">Subscriptions</a></li>
         <li><a href="{{route('admin.ContactMessages')}}">ContactMessages</a></li>
         <li><a href="{{route('admin.users.index')}}">Users</a></li>
@@ -39,7 +40,7 @@
       <!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->
-            <div class="sidebar-footer hidden-small">
+            {{-- <div class="sidebar-footer hidden-small">
                 <a data-toggle="tooltip" data-placement="top" title="Settings">
                   <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                 </a>
@@ -52,4 +53,4 @@
                 <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
                   <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                 </a>
-              </div>
+              </div> --}}

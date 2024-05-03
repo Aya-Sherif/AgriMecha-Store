@@ -256,7 +256,7 @@
                                                     <tr>
                                                         <td colspan="2">
                                                             <a class="custom-btn custom-btn--medium custom-btn--style-1"
-                                                                href="#">Proceed to checkout</a>
+                                                                href="{{route('front.checkout')}}">Proceed to checkout</a>
                                                         </td>
                                                     </tr>
                                                 </tfoot>

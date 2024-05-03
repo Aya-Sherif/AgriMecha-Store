@@ -62,7 +62,7 @@
                             <aside class="sidebar goods-filter">
                                 <span class="goods-filter-btn-close js-toggle-filter"><i class="fontello-cancel"></i></span>
 
-                                <div class="goods-filter__inner">
+                                {{-- <div class="goods-filter__inner">
                                     <!-- start widget -->
                                     <div class="widget widget--search">
                                         <form class="form--horizontal" action="#" method="get">
@@ -134,7 +134,7 @@
                                     <!-- end widget -->
 
                                     <!-- end widget -->
-                                </div>
+                                </div> --}}
                             </aside>
                         </div>
 
@@ -147,7 +147,7 @@
                                             class="fontello-filter"></i>Filter</span>
                                 </div>
 
-                                <div class="col-auto">
+                                {{-- <div class="col-auto">
                                     <!-- start ordering -->
                                     <form class="ordering" action="#">
                                         <div class="input-wrp">
@@ -160,7 +160,7 @@
                                         </div>
                                     </form>
                                     <!-- end ordering -->
-                                </div>
+                                </div> --}}
                             </div>
 
                             <div class="spacer py-3"></div>

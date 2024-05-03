@@ -51,7 +51,6 @@ class CartController extends Controller
 
     public function removeFromCart($productId,Cart $cartModel)
     {
-
         // Check if the product exists in the cart
         if (session()->has('cart')) {
             $cart = session()->get('cart');
@@ -62,14 +61,17 @@ class CartController extends Controller
 
                 // Update the session cart
                 session()->put('cart', $cart);
-                $cart = session()->get('cart', []); // Retrieve cart data from session
+                // Retrieve cart data from session
+
                 $total = $cartModel->calculateTotal($cart); // Calculate total using model method
 
                 return view("front.cart",compact('total'))->with('success', "Success");
             } else {
-
-                return view("front.cart")->with('error', "Error!!!");
+                $total = $cartModel->calculateTotal($cart);
+                return view("front.cart",compact('total'))->with('error', "Error!!!");
             }
+
+
         }
     }
 }

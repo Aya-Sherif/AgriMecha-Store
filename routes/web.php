@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ModelController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\RecivedOrderController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Front\AboutController;
@@ -12,10 +13,14 @@ use App\Http\Controllers\Front\BlogController;
 use App\Http\Controllers\front\CartController;
 use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\HomeController;
+use App\Http\Controllers\Front\OrderController;
+use App\Http\Controllers\Front\OrderProductController;
 use App\Http\Controllers\Front\ProducDetailsController;
 use App\Http\Controllers\Front\ShopCatlogController;
 use App\Http\Controllers\Front\SinglePostController;
 use App\Http\Controllers\Front\SingleProductController;
+use App\Http\Controllers\Front\UserOrdersController;
+use App\Models\OrderProduct;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +49,8 @@ Route::name('admin.')->group(function () {
         Route::resource('products', ProductController::class);
         Route::resource('blogs', ABlogcontroller::class);
         Route::resource('users', UserController::class);
+        Route::get('admin/orders', [RecivedOrderController::class,'index'])->name('recivedorders');
+        Route::post('orderstat/{id}', [RecivedOrderController::class,'updateorderstat'])->name('orderstate');
     });
 
 });
@@ -69,6 +76,9 @@ Route::name('front.')->group(function () {
     Route::post('/updateCart/{productId}', [CartController::class, 'addToCart'])->name('updateCart'); //
     Route::get('/removeFromCart/{productId}', [CartController::class, 'removeFromCart'])->name('removeItem'); //
     Route::get('/Showcart', [CartController::class, 'showCart'])->name('showCart'); //
+    Route::get('/checkout',[OrderController::class,'checkout'])->name('checkout');
+    Route::get('/orders',[OrderController::class,'index'])->name('orders');
+    Route::post('/CancelOrder/{orderId}',[OrderController::class,'cancelorder'])->name('cancelorder');
     // });
 });
 Route::get('/pdf/{filename}', 'PDFController@show')->name('pdf.show');

@@ -82,12 +82,12 @@
                                         <li>
                                             <a href="{{ route('front.about') }}">About</a>
                                         </li>
-
+{{-- 
                                         <li>
                                             <a href="{{ route('front.productdetails') }}">Product Details</a>
 
 
-                                        </li>
+                                        </li> --}}
 
                                         <li class="has-submenu">
                                             <a href="javascript:void(0);">Shop</a>
@@ -112,8 +112,23 @@
                                                     class="total li-cart1"></span></a>
                                         </li>
                                         <li class="li-btn">
-                                            <a class="custom-btn custom-btn--small custom-btn--style-4"
-                                                href="#">Get in Touch</a>
+                                            @guest
+                                                <a class="custom-btn custom-btn--small custom-btn--style-4"
+                                                    href="{{ route('login') }}">Login</a>
+                                            @else
+                                                @if (auth()->user()->role == 'admin')
+                                                <a class="custom-btn custom-btn--small custom-btn--style-4" href="{{ route('admin.home') }}">Admin Dashboard</a>
+
+                                                @else
+                                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                        style="display: none;">
+                                                        @csrf
+                                                    </form>
+                                                    <a class="custom-btn custom-btn--small custom-btn--style-4"
+                                                        href="{{ route('logout') }}"
+                                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                                @endif
+                                            @endguest
                                         </li>
                                     </ul>
 

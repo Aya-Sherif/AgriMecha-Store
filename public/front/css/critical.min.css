@@ -1804,8 +1804,19 @@ a:hover {
 .custom-btn.custom-btn--style-4:focus,
 .custom-btn.custom-btn--style-4:hover {
     background-color: transparent;
-    color: #fff;
+    color: #0a0a0a;
 }
+.custom-btn.custom-btn--style-7 {
+    background-color: #8b1010;
+    color: #f5fff5;
+
+}
+.custom-btn.custom-btn--style-7:focus,
+.custom-btn.custom-btn--style-:hover {
+    background-color: transparent;
+    color: #090909;
+}
+
 .custom-btn.custom-btn--style-5 {
     background-color: #fff;
     border-color: #fff;

@@ -104,6 +104,8 @@
                                             <ul class="submenu">
                                                 <li><a href="{{ route('front.shopcatalog') }}">Shop Catalog</a></li>
                                                 <li><a href="{{ route('front.cart') }}">Cart</a>
+                                                    <li><a href="{{ route('front.orders') }}">Your Orders</a>
+
                                                 </ul>
                                         </li>
 

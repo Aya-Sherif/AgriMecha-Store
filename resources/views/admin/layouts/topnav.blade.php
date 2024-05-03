@@ -8,15 +8,15 @@
                 <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown"
                         data-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ asset('dashboard') }}/images/img.jpg" alt="">John Doe
+                       AgriMecha
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="javascript:;"> Profile</a>
                         <a class="dropdown-item" href="javascript:;">
-                            <span class="badge bg-red pull-right">50%</span>
+                            {{-- <span class="badge bg-red pull-right">50%</span> --}}
                             <span>Settings</span>
                         </a>
-                        <a class="dropdown-item" href="javascript:;">Help</a>
+                        {{-- <a class="dropdown-item" href="javascript:;">Help</a> --}}
                         <a class="dropdown-item"  href="{{ route('logout') }}"
                         onclick="event.preventDefault();
                                       document.getElementById('logout-form').submit();">
@@ -31,7 +31,7 @@
                 </li>
 
 
-                <li role="presentation" class="nav-item dropdown open">
+                {{-- <li role="presentation" class="nav-item dropdown open">
                     <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1"
                         data-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-envelope-o"></i>
@@ -99,7 +99,7 @@
                             </div>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
             </ul>
         </nav>
     </div>
