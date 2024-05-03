@@ -4,6 +4,7 @@ namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
+use App\Models\PModel;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -23,31 +24,57 @@ class CartController extends Controller
     }
 
     public function addToCart(Request $request, $productId)
-    {
-        $quantity = $request->input('quantity');
-        // Check if the product is already in the cart
-        if (session()->has('cart')) {
-            $cart = session()->get('cart');
-            // Check if the product exists in the cart
-            if (isset($cart[$productId])) {
-                $product = $cart[$productId]; // Define $product here
-                $cart[$productId]['quantity'] = $quantity;
-                $cart[$productId]['totalprice'] = $quantity * $product['price'];
-            } else {
-                // If the product doesn't exist, you need to fetch it from somewhere
-                // Assuming $product is fetched from your database or some other source
+{
+    $quantityRequested = $request->input('quantity');
+    $product = PModel::findOrFail($productId);
+    $quantityInStock = $product->quantity;
 
-            }
+    // Initialize the cart
+    $cart = session()->get('cart', []);
+
+    // Check if the requested quantity exceeds the available stock
+    if ($quantityInStock >= $quantityRequested) {
+        // Check if the product exists in the cart
+        if (isset($cart[$productId])) {
+            // Update the quantity and total price in the cart
+            $cart[$productId]['quantity'] = $quantityRequested;
+            $cart[$productId]['totalprice'] = $quantityRequested * $product->price;
         } else {
-            // Initialize the cart and add the product
-
+            // Add the product to the cart
+            $cart[$productId] = [
+                'product_name' => $product->productname,
+                'image' => $product->image,
+                'model_name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $quantityRequested,
+                'totalprice' => $quantityRequested * $product->price
+            ];
         }
-
-        // Store the updated cart in the session
-        session()->put('cart', $cart);
-
-        return response()->json(['success' =>  true]);
+    } else {
+        // Update the cart with the exact quantity available in stock
+        if (isset($cart[$productId])) {
+            // Update the quantity and total price in the cart
+            $cart[$productId]['quantity'] = $quantityInStock;
+            $cart[$productId]['totalprice'] = $quantityInStock * $product->price;
+        } else {
+            // Add the product to the cart with the available quantity
+            $cart[$productId] = [
+                'product_name' => $product->productname,
+                'image' => $product->image,
+                'model_name' => $product->name,
+                'price' => $product->price,
+                'quantity' => $quantityInStock,
+                'totalprice' => $quantityInStock * $product->price
+            ];
+        }
     }
+
+    // Store the updated cart in the session
+    session()->put('cart', $cart);
+
+    return response()->json(['success' => true]);
+}
+
 
     public function removeFromCart($productId,Cart $cartModel)
     {

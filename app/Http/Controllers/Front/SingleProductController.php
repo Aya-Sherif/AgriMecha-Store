@@ -28,43 +28,76 @@ class SingleProductController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
+        $quantityExect = PModel::findOrFail($product->id)->quantity;
 
-        $cart = session()->get('cart', []);
-        if (isset($cart[$product->id])) {
-            $totalquantity = $request->input('quantity') + $cart[$product->id]['quantity'];
-        } else {
-            $totalquantity = $request->input('quantity');
-            $totalprice = $totalquantity * $product->price;
-            $cart[$product->id] = [
-                "product_name" => $product->productname,
-                "image" => $product->image,
-                "model_name" => $product->name,
-                "price" => $product->price,
-                "quantity" => $totalquantity,
-                "totalprice" => $totalprice
-            ];
-        }
+        $cart = session()->get('cart', ["quantity"=>0]);
+        if ($quantityExect > ($request->input('quantity')+$cart[$product->id]['quantity'] )|| $quantityExect == $request->input('quantity')+$cart[$product->id]['quantity']) {
 
-        if (isset($cart[$product->id])) {
-            $cart[$product->id]['quantity'] = $totalquantity;
-            $cart[$product->id]['totalprice'] = $totalquantity * $product->price;
+            if (isset($cart[$product->id])) {
+                $totalquantity = $request->input('quantity') + $cart[$product->id]['quantity'];
+            } else {
+                $totalquantity = $request->input('quantity');
+                $totalprice = $totalquantity * $product->price;
+                $cart[$product->id] = [
+                    "product_name" => $product->productname,
+                    "image" => $product->image,
+                    "model_name" => $product->name,
+                    "price" => $product->price,
+                    "quantity" => $totalquantity,
+                    "totalprice" => $totalprice
+                ];
+            }
+
+            if (isset($cart[$product->id])) {
+                $cart[$product->id]['quantity'] = $totalquantity;
+                $cart[$product->id]['totalprice'] = $totalquantity * $product->price;
+            } else {
+                $totalprice = $totalquantity * $product->price;
+                $cart[$product->id] = [
+                    "product_name" => $product->productname,
+                    "image" => $product->image,
+                    "model_name" => $product->name,
+                    "price" => $product->price,
+                    "quantity" => $totalquantity,
+                    "totalprice" => $totalprice
+                ];
+            }
         } else {
-            $totalprice = $totalquantity * $product->price;
-            $cart[$product->id] = [
-                "product_name" => $product->productname,
-                "image" => $product->image,
-                "model_name" => $product->name,
-                "price" => $product->price,
-                "quantity" => $totalquantity,
-                "totalprice" => $totalprice
-            ];
+            if (isset($cart[$product->id])) {
+                $totalquantity = $quantityExect;
+            } else {
+                $totalquantity = $quantityExect-$cart[$product->id]['quantity'];
+                $totalprice = $totalquantity * $product->price;
+                $cart[$product->id] = [
+                    "product_name" => $product->productname,
+                    "image" => $product->image,
+                    "model_name" => $product->name,
+                    "price" => $product->price,
+                    "quantity" => $totalquantity,
+                    "totalprice" => $totalprice
+                ];
+            }
+
+            if (isset($cart[$product->id])) {
+                $cart[$product->id]['quantity'] = $totalquantity;
+                $cart[$product->id]['totalprice'] = $totalquantity * $product->price;
+            } else {
+                $totalprice = $totalquantity * $product->price;
+                $cart[$product->id] = [
+                    "product_name" => $product->productname,
+                    "image" => $product->image,
+                    "model_name" => $product->name,
+                    "price" => $product->price,
+                    "quantity" => $totalquantity,
+                    "totalprice" => $totalprice
+                ];
+            }
         }
 
         session()->put('cart', $cart);
         //        dd($cart);
         return redirect()->back()->with('success', 'Product added successfully to cart.');
-    }
-    public function LeaveComment(Request $request, PModel $product)
+    }    public function LeaveComment(Request $request, PModel $product)
     {
         $request->validate([
             'name' => 'required|string',
