@@ -18,7 +18,7 @@ return new class extends Migration
             $table->String('product_name');
             $table->integer('quantity')->unsigned();
             $table->decimal('totalprice',10,2)->unsigned();
-            $table->decimal('discount',10,2)->unsigned();
+            $table->decimal('discount',10,2)->unsigned()->default(0);
 
             $table->timestamps();
         });

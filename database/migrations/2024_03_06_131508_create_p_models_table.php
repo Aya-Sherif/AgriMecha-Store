@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('p_models', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
             $table->string('name')->unique();
             $table->decimal('price', 8, 2); // Using decimal for price to handle decimal values
             $table->string('productname');

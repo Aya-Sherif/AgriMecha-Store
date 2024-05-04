@@ -30,12 +30,21 @@ class SingleProductController extends Controller
 
         $quantityExect = PModel::findOrFail($product->id)->quantity;
 
-        $cart = session()->get('cart', ["quantity"=>0]);
-        if ($quantityExect > ($request->input('quantity')+$cart[$product->id]['quantity'] )|| $quantityExect == $request->input('quantity')+$cart[$product->id]['quantity']) {
+        $cart = session()->get('cart', []);
 
-            if (isset($cart[$product->id])) {
+        if (isset($cart[$product->id])) {
+            if ($quantityExect > ($request->input('quantity') + $cart[$product->id]['quantity']) || $quantityExect == $request->input('quantity') + $cart[$product->id]['quantity']) {
                 $totalquantity = $request->input('quantity') + $cart[$product->id]['quantity'];
+                $cart[$product->id]['quantity'] = $totalquantity;
+                $cart[$product->id]['totalprice'] = $totalquantity * $product->price;
+
             } else {
+                $totalquantity = $quantityExect;
+
+            }
+        } else {
+
+            if ($quantityExect > $request->input('quantity') || $quantityExect == $request->input('quantity') ) {
                 $totalquantity = $request->input('quantity');
                 $totalprice = $totalquantity * $product->price;
                 $cart[$product->id] = [
@@ -44,29 +53,9 @@ class SingleProductController extends Controller
                     "model_name" => $product->name,
                     "price" => $product->price,
                     "quantity" => $totalquantity,
-                    "totalprice" => $totalprice
-                ];
-            }
-
-            if (isset($cart[$product->id])) {
-                $cart[$product->id]['quantity'] = $totalquantity;
-                $cart[$product->id]['totalprice'] = $totalquantity * $product->price;
-            } else {
-                $totalprice = $totalquantity * $product->price;
-                $cart[$product->id] = [
-                    "product_name" => $product->productname,
-                    "image" => $product->image,
-                    "model_name" => $product->name,
-                    "price" => $product->price,
-                    "quantity" => $totalquantity,
-                    "totalprice" => $totalprice
-                ];
-            }
-        } else {
-            if (isset($cart[$product->id])) {
+                    "totalprice" => $totalprice];
+            }else{
                 $totalquantity = $quantityExect;
-            } else {
-                $totalquantity = $quantityExect-$cart[$product->id]['quantity'];
                 $totalprice = $totalquantity * $product->price;
                 $cart[$product->id] = [
                     "product_name" => $product->productname,
@@ -76,28 +65,16 @@ class SingleProductController extends Controller
                     "quantity" => $totalquantity,
                     "totalprice" => $totalprice
                 ];
+
             }
 
-            if (isset($cart[$product->id])) {
-                $cart[$product->id]['quantity'] = $totalquantity;
-                $cart[$product->id]['totalprice'] = $totalquantity * $product->price;
-            } else {
-                $totalprice = $totalquantity * $product->price;
-                $cart[$product->id] = [
-                    "product_name" => $product->productname,
-                    "image" => $product->image,
-                    "model_name" => $product->name,
-                    "price" => $product->price,
-                    "quantity" => $totalquantity,
-                    "totalprice" => $totalprice
-                ];
-            }
         }
-
+    
         session()->put('cart', $cart);
         //        dd($cart);
         return redirect()->back()->with('success', 'Product added successfully to cart.');
-    }    public function LeaveComment(Request $request, PModel $product)
+    }
+    public function LeaveComment(Request $request, PModel $product)
     {
         $request->validate([
             'name' => 'required|string',

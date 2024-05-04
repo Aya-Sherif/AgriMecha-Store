@@ -33,7 +33,7 @@
                 // Handle success response (if needed)
 
                 console.log(data); // Log the response data
-                alert('Product Added Successfuly')
+                alert(data['message'])
                 // Echo.private(`cart-channel`)
                 // .listen('.cart.quantity.updated', (event) => {
                 //     console.log('Received CartUpdated event:', event);

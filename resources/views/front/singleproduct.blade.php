@@ -68,7 +68,6 @@
                                             src="{{ asset('front/img/products_img') }}/{{ $product->image }}"
                                             alt="demo" />
 
-                                        <span class="product-label product-label--new">New</span>
                                     </div>
                                 </div>
 
@@ -77,8 +76,10 @@
                                         <h3 class="__name">{{ $product->productname }}</h3>
 
                                         <div class="__categories">
-
+                                            @if ($product->category != null)
                                             Category: {{ $product->category->name }}
+
+@endif
 
                                             </span>
                                         </div>
@@ -369,69 +370,71 @@
                             </div>
                         </div>
                         <!-- start product single -->
+@if ($product->category)
 
-                        <h2>Related <span>products</span></h2>
-                        <div class="spacer py-2"></div>
+<h2>Related <span>products</span></h2>
+<div class="spacer py-2"></div>
 
-                        <!-- start goods -->
-                        <div class="goods goods--style-1">
-                            <div class="__inner">
-                                <div class="row">
-                                    <!-- start item -->
-                                    @foreach ($relatedProducts as $relatedProduct)
-                                        <div class="col-12 col-sm-6 col-lg-4">
-                                            <div class="__item">
-                                                <figure class="__image">
-                                                    <img class="lazy" width="180"
-                                                        src="{{ asset('front/img/products_img') }}/{{ $relatedProduct->image }}"
-                                                        data-src="{{ asset('front/img/products_img') }}/{{ $relatedProduct->image }}"
-                                                        alt="demo" />
-                                                </figure>
+<!-- start goods -->
+<div class="goods goods--style-1">
+    <div class="__inner">
+        <div class="row">
+            <!-- start item -->
+            @foreach ($relatedProducts as $relatedProduct)
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="__item">
+                        <figure class="__image">
+                            <img class="lazy" width="180"
+                                src="{{ asset('front/img/products_img') }}/{{ $relatedProduct->image }}"
+                                data-src="{{ asset('front/img/products_img') }}/{{ $relatedProduct->image }}"
+                                alt="demo" />
+                        </figure>
 
-                                                <div class="__content">
-                                                    <h4 class="h6 __title"><a
-                                                            href="{{ route('front.singleproduct', ['product' => $relatedProduct->id]) }}
-                                                            ">{{ $relatedProduct->productname }}</a>
-                                                    </h4>
+                        <div class="__content">
+                            <h4 class="h6 __title"><a
+                                    href="{{ route('front.singleproduct', ['product' => $relatedProduct->id]) }}
+                                    ">{{ $relatedProduct->productname }}</a>
+                            </h4>
 
-                                                    <div class="__category"><a
-                                                            href="{{ route('front.singleproduct', ['product' => $relatedProduct->id]) }}
-                                                            ">{{ $product->category->name }}</a>
-                                                    </div>
-
-                                                    <div class="product-price">
-                                                        <span
-                                                            class="product-price__item product-price__item--new">{{ $relatedProduct->price }}
-                                                            $</span>
-                                                    </div>
-
-                                                    @if ($relatedProduct->quantity == 0)
-                                                            <button
-                                                                class="custom-btn custom-btn--medium custom-btn--style-6 add-to-cart-btn"
-                                                                data-product-id="{{ $relatedProduct->id }}" disabled><i
-                                                                    class="fontello-shopping-bag"></i>Out Of Stock</button>
-                                                        @else
-                                                            <button
-                                                                class="custom-btn custom-btn--medium custom-btn--style-1 add-to-cart-btn"
-                                                                data-product-id="{{ $relatedProduct->id }}"><i
-                                                                    class="fontello-shopping-bag"></i>Add to cart</button>
-                                                        @endif
-
-
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                @include('front.styles.addtocartscript')
-
-
-                                    <!-- end item -->
-                                </div>
+                            <div class="__category"><a
+                                    href="{{ route('front.singleproduct', ['product' => $relatedProduct->id]) }}
+                                    ">{{ $product->category->name }}</a>
                             </div>
+
+                            <div class="product-price">
+                                <span
+                                    class="product-price__item product-price__item--new">{{ $relatedProduct->price }}
+                                    $</span>
+                            </div>
+
+                            @if ($relatedProduct->quantity == 0)
+                                    <button
+                                        class="custom-btn custom-btn--medium custom-btn--style-6 add-to-cart-btn"
+                                        data-product-id="{{ $relatedProduct->id }}" disabled><i
+                                            class="fontello-shopping-bag"></i>Out Of Stock</button>
+                                @else
+                                    <button
+                                        class="custom-btn custom-btn--medium custom-btn--style-1 add-to-cart-btn"
+                                        data-product-id="{{ $relatedProduct->id }}"><i
+                                            class="fontello-shopping-bag"></i>Add to cart</button>
+                                @endif
+
+
+
                         </div>
-                        <!-- end goods -->
+
+                    </div>
+                </div>
+            @endforeach
+        @include('front.styles.addtocartscript')
+
+
+            <!-- end item -->
+        </div>
+    </div>
+</div>
+<!-- end goods -->
+@endif
 
                     </div>
 

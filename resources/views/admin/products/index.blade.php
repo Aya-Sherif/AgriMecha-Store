@@ -26,7 +26,7 @@
                                 <th>PDF Link</th>
                                 <th>Created At</th>
                                 <th>Edit</th>
-                                <th>Delete</th>
+                                {{-- <th>Delete</th> --}}
 
                             </tr>
                         </thead>
@@ -67,13 +67,13 @@
                                     <td>{{ $product->created_at->format('F j, Y') }}</td> <!-- Format the creation date -->
                                     <td><a href="{{ route('admin.products.edit', $product->id) }}" class="btn btn-info">Edit
                                     </td>
-                                    <td>
+                                    {{-- <td>
                                         <form action="{{ route('admin.products.destroy', $product->id) }}" method="post" onsubmit="return confirm('Are you sure you want to delete this category?');">
                                             @csrf
                                             @method('DELETE')
                                             <button class="btn btn-danger"> Delete</button>
 
-                                        </form>                                    </td>
+                                        </form>                                    </td> --}}
                                 </tr>
                             @endforeach
                         </tbody>

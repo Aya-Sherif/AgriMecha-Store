@@ -19,6 +19,7 @@ use App\Http\Controllers\Front\ProducDetailsController;
 use App\Http\Controllers\Front\ShopCatlogController;
 use App\Http\Controllers\Front\SinglePostController;
 use App\Http\Controllers\Front\SingleProductController;
+use App\Http\Controllers\Front\SubscriptionController as FrontSubscriptionController;
 use App\Http\Controllers\Front\UserOrdersController;
 use App\Models\OrderProduct;
 use App\Models\User;
@@ -44,7 +45,6 @@ Route::name('admin.')->group(function () {
         Route::get('/ContactMessages', [ContactController::class, 'show'])->name('ContactMessages');
         Route::put('admin/messages/{id}',[ContactController::class, 'update'])->name('messages.update');
         Route::get('/subscription', [SubscriptionController::class, 'index'])->name('subscription');
-        Route::post('/AddSubsription', [SubscriptionController::class, 'add'])->name('AddSubsription.add');
         Route::resource('categories', CategoryController::class);
         Route::resource('products', ProductController::class);
         Route::resource('blogs', ABlogcontroller::class);
@@ -79,6 +79,8 @@ Route::name('front.')->group(function () {
     Route::get('/checkout',[OrderController::class,'checkout'])->name('checkout');
     Route::get('/orders',[OrderController::class,'index'])->name('orders');
     Route::post('/CancelOrder/{orderId}',[OrderController::class,'cancelorder'])->name('cancelorder');
+    Route::post('/AddSubsription', [FrontSubscriptionController::class, 'add'])->name('AddSubsription.add');
+
     // });
 });
 Route::get('/pdf/{filename}', 'PDFController@show')->name('pdf.show');

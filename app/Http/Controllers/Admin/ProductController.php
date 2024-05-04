@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Category;
+use App\Models\Order;
 use App\Models\OrderProduct;
 use App\Models\PModel;
 use Illuminate\Http\Request;
@@ -171,7 +172,7 @@ class ProductController extends Controller
         $product->update($validatedData);
 
         // Redirect to a success page or do any other necessary actions
-        return redirect()->toroute('admin.products.index', $product->id)->with('success', __("admin.updated"));
+        return redirect()->route('admin.products.index', $product->id)->with('success', __("admin.updated"));
     }
 
 
@@ -180,11 +181,65 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $ordersRelated=OrderProduct::where('product_id'==$id);
+        $ordersRelated = OrderProduct::where('product_id', $id)->get();
+
+        foreach ($ordersRelated as $orderproduct) {
+
+            $order = Order::findOrFail($orderproduct->order_id);
+            $products = OrderProduct::where('order_id', $id)->get();
+            //  dd($products);
+
+            foreach ($products as $product) {
+                // dd($product);
+
+                $productInStock = PModel::findOrFail($product->product_id);
+                $totalquantity = $productInStock->quantity + $product->quantity;
+
+                $productInStock->quantity = ($totalquantity);
+                $productInStock->save();
+            }
+            $order->state = ('canceled');
+            $order->save();
+            // dd($order);
+        }
+
+
         //dd($ordersRelated);
         // RecivedOrderController::updateorderstat('canceled',$id);
-
         PModel::destroy($id);
+
         return back()->with("success", __("admin.deleted"));
     }
+//     public function destroy($id)
+// {
+//     // Find orders related to the product
+//     $ordersRelated = OrderProduct::where('product_id', $id)->get();
+
+//     // Iterate over related orders
+//     foreach ($ordersRelated as $orderProduct) {
+//         // Find the order
+//         $order = Order::findOrFail($orderProduct->order_id);
+
+//         // Update the product name to reflect the deletion, but keep the rest of the order intact
+//         $orderProduct->product_name = 'Product Removed';
+//         $orderProduct->product_id = null; // Set product_id to null
+//         $orderProduct->save();
+
+//         // Update the state of the order to 'canceled'
+//         $order->state = 'canceled';
+//         $order->save();
+//     }
+
+//     // Now that related order_products are updated and orders are canceled, you can proceed with other operations
+
+//     // Proceed with other operations as needed, e.g., updating the product's quantity in stock
+//     // $productInStock = PModel::findOrFail($id);
+//     // ...
+
+//     // Finally, you can delete the product from the product catalog
+//     PModel::destroy($id);
+
+//     return back()->with("success", __("admin.deleted"));
+// }
+
 }

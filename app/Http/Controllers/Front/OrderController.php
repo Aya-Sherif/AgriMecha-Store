@@ -33,32 +33,31 @@ class OrderController extends Controller
                 ]);
                 foreach (session('cart') as $key => $cartProduct) {
                     $product = PModel::findOrFail($key);
-                    if($product->quantity>$cartProduct['quantity']||$product->quantity==$cartProduct['quantity'])
-                    {
+                    if ($product->quantity > $cartProduct['quantity'] || $product->quantity == $cartProduct['quantity']) {
                         $product->quantity -= $cartProduct['quantity'];
-                            $product->save();
+                        $product->save();
 
-                    OrderProduct::create([
-                        'order_id' => $order->id,
-                        'product_id' => $key,
-                        'product_name' => $cartProduct['product_name'],
-                        'quantity' => $cartProduct['quantity'],
-                        'totalprice' => $cartProduct['totalprice'],
+                        OrderProduct::create([
+                            'order_id' => $order->id,
+                            'product_id' => $key,
+                            'product_name' => $cartProduct['product_name'],
+                            'quantity' => $cartProduct['quantity'],
+                            'totalprice' => $cartProduct['totalprice'],
 
-                        // Add other product details such as price, name, etc.
-                    ]);
+                            // Add other product details such as price, name, etc.
+                        ]);
+                    }
                 }
-
-                }
-            } elseif (auth()->user()->role == 'admin') {
-                return redirect()->route('front.cart');
             }
-
-            session()->forget('cart');
-
+        } elseif (auth()->user()->role == 'admin') {
             return redirect()->route('front.cart');
-            //   return redirect()->route('order.confirmation', ['order' => $order->id]);
         }
+
+        session()->forget('cart');
+
+        return redirect()->route('front.cart');
+        //   return redirect()->route('order.confirmation', ['order' => $order->id]);
+
     }
 
 
@@ -73,6 +72,18 @@ class OrderController extends Controller
         // Find the category by its ID
         $Order = Order::findOrFail($id);
         $state = 'canceled';
+        $products = OrderProduct::where('order_id',$id)->get();
+
+        foreach ($products as $product) {
+        //    dd($product);
+
+            $productInStock = PModel::findOrFail($product->product_id);
+            $totalquantity = $productInStock->quantity + $product->quantity;
+            // dd($totalquantity);
+
+            $productInStock->quantity = ($totalquantity);
+            $productInStock->save();
+        }
         // Update the category with the validated data
         $Order->state = ($state);
         $Order->save();

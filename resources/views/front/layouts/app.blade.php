@@ -193,7 +193,7 @@
                             <h5 class=" footer__item__title h6">Get a newslatter</h5>
 
                             <form class="form--horizontal" method="POST"
-                                action="{{ route('admin.AddSubsription.add') }}">
+                                action="{{ route('front.AddSubsription.add') }}">
                                 @CSRF
                                 <div class="input-wrp">
                                     <input class="textfield" name="email" type="text"

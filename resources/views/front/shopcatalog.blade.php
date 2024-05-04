@@ -3,11 +3,11 @@
     <!-- start main -->
     <main role="main">
         <!-- Common styles
-                                                                                    ================================================== -->
+                                                                                        ================================================== -->
         <link rel="stylesheet" href="{{ asset('front') }}/css/style.min.css" type="text/css">
 
         <!-- Load lazyLoad scripts
-                                                                                    ================================================== -->
+                                                                                        ================================================== -->
         <script>
             (function(w, d) {
                 var m = d.getElementsByTagName('main')[0],
@@ -196,10 +196,13 @@
 
                                                         <!-- Product categories -->
                                                         <div class="__category">
-                                                            <a
-                                                                href="{{ route('front.singleproduct', ['product' => $model->id]) }}">
-                                                                {{ $model->category->name }}
-                                                            </a>
+                                                            @if ($model->category != null)
+                                                                <a
+                                                                    href="{{ route('front.singleproduct', ['product' => $model->id]) }}">
+                                                                    {{ $model->category->name }}
+                                                                </a>
+                                                            @endif
+
                                                         </div>
 
                                                         <!-- Product price -->
