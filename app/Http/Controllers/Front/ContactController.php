@@ -20,7 +20,7 @@ class ContactController extends Controller
     }
     function show()
     {
-        $messages = Contact::all();
+        $messages = Contact::orderBy('state','desc')->get();
         return view("admin.contactmessages", compact('messages'));
     }
     public function update(Request $request, $id)

@@ -7,7 +7,26 @@
 
         <!-- /page content -->
         <div class="card-body">
-            <h1>Orders</h1>
+            <div class="page-title">
+                <div class="title_left">
+                  <h3>Orders</h3>
+                </div>
+
+                <div class="title_right">
+
+                    <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                        <form method="Post" action="{{route('admin.searchorder')}}" >
+                            @csrf
+                    <div class="input-group">
+                      <input type="text" class="form-control" name='id' placeholder="Search for...">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Go!</button>
+                      </span>
+                        </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             @include('admin.layouts.message')
             @if ($orders->isNotEmpty())
                 <div class="table-responsive">

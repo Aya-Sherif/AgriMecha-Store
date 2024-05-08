@@ -433,7 +433,7 @@
         </div>
     </div>
 </div>
-<!-- end goods -->
+<!-- end goods -->            
 @endif
 
                     </div>

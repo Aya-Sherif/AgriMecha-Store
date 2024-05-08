@@ -18,7 +18,7 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>WhatsApp</th>
+                                <th>Message</th>
                                 <th>Sent At</th>
                                 <th>State</th>
                             </tr>
@@ -29,8 +29,9 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $message->name }}</td>
                                     <td>{{ $message->email }}</td>
-                                    <td>{{ $message->phone }}</td>
-                                    <td><a href="https://wa.me/{{ $message->phone }}" target="_blank">WhatsApp</a></td>
+                                    <td><a href="https://wa.me/{{ $message->phone }}" target="_blank">{{ $message->phone }}</a></td>
+                                    <td>{{ $message->message }}</td>
+
                                     <td>{{ $message->created_at->format('Y-m-d H:i:s') }}</td>
                                     <td>
                                         <form action="{{ route('admin.messages.update', $message->id) }}" method="post">

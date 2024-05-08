@@ -13,7 +13,7 @@ class RecivedOrderController extends Controller
 
 public function index()
 {
-    $orders = Order::with('user', 'orderDetails')->get();
+    $orders = Order::with('user', 'orderDetails')->orderBy('created_at','desc')->get();
     return view('admin.orders', compact('orders'));
 }
 
@@ -40,4 +40,12 @@ public function index()
     //dd($id);
          return redirect()->back()->with('success', 'Order state updated successfully');
     }
+    public function searchorder(Request $request)
+    {
+        $id=$request->id-5000;
+        $orders=Order::where('id',$id)->get();
+        return view('admin.orders', compact('orders'));
+    }
+
+
 }

@@ -19,7 +19,7 @@
                                 <th>User Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>WhatsApp</th>
+                                <th>Orders</th>
                                 <th>Government</th>
                             </tr>
                         </thead>
@@ -31,8 +31,8 @@
                                     <td>{{ $user->username }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->phone }}</td>
-                                    <td><a href="https://wa.me/{{ $user->phone }}" target="_blank">WhatsApp</a></td>
-                                    <td>{{ $user->government }}</td>
+                                    <td>{{$orders[$user->id]}}</td>
+                                    <td>{{ $user->governorate }}</td>
 
                                 </tr>
                             @endforeach

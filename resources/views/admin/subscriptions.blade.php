@@ -8,6 +8,7 @@
         <!-- /page content -->
         <div class="card-body">
             <h1>Subscriptions</h1>
+
             @include('admin.layouts.message')
             @if ($subs->isNotEmpty())
                 <div class="table-responsive">

@@ -17,7 +17,7 @@ class OrderController extends Controller
     function index()
     {
         $user = Auth::id(); // Get authenticated user ID
-        $orders = Order::where('user_id', $user)->with('orderDetails.product')->get();
+        $orders = Order::where('user_id', $user)->with('orderDetails.product')->orderBy('state','desc')->get();
 
         return view("front.userorders", compact('orders'));
     }

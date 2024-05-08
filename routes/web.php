@@ -50,6 +50,7 @@ Route::name('admin.')->group(function () {
         Route::resource('blogs', ABlogcontroller::class);
         Route::resource('users', UserController::class);
         Route::get('admin/orders', [RecivedOrderController::class,'index'])->name('recivedorders');
+        Route::post('searchorder', [RecivedOrderController::class,'searchorder'])->name('searchorder');
         Route::post('orderstat/{id}', [RecivedOrderController::class,'updateorderstat'])->name('orderstate');
     });
 
@@ -69,6 +70,9 @@ Route::name('front.')->group(function () {
     Route::post('/addToCart/{product}', [SingleProductController::class, 'addToCart'])->name('addToCart');
     Route::post('/LeaveComment/{product}', [SingleProductController::class, 'LeaveComment'])->name('LeaveComment');
     Route::get('/shopcatalog', [ShopCatlogController::class, 'index'])->name('shopcatalog');
+    Route::post('/shopcatalog', [ShopCatlogController::class, 'pricefilter'])->name('pricefilter');
+    Route::post('/sortfilter', [ShopCatlogController::class, 'sortfilter'])->name('sortfilter');
+    Route::get('/categoryfilter/{category}', [ShopCatlogController::class, 'categoryfilter'])->name('categoryfilter');
     Route::post('/addtoCart/{id}', [ShopCatlogController::class, 'addToCart'])->name('addtoCart');
     Route::get('/productdetails', [ProducDetailsController::class, 'index'])->name('productdetails');
     Route::get('/about', [AboutController::class, 'index'])->name('about');

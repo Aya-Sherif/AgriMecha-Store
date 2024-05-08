@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,12 @@ class UserController extends Controller
     public function index()
     {
         $users=User::all();
-        return view("admin.users",compact('users'));    }
+        $orders=[];
+        foreach($users as $user)
+        {
+            $orders[$user->id]=Order::where('user_id',$user->id)->count();
+        }
+        return view("admin.users",compact('users','orders'));    }
 
     /**
      * Show the form for creating a new resource.

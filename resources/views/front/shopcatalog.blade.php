@@ -3,11 +3,11 @@
     <!-- start main -->
     <main role="main">
         <!-- Common styles
-                                                                                        ================================================== -->
+                                                                                            ================================================== -->
         <link rel="stylesheet" href="{{ asset('front') }}/css/style.min.css" type="text/css">
 
         <!-- Load lazyLoad scripts
-                                                                                        ================================================== -->
+                                                                                            ================================================== -->
         <script>
             (function(w, d) {
                 var m = d.getElementsByTagName('main')[0],
@@ -62,7 +62,7 @@
                             <aside class="sidebar goods-filter">
                                 <span class="goods-filter-btn-close js-toggle-filter"><i class="fontello-cancel"></i></span>
 
-                                {{-- <div class="goods-filter__inner">
+                                <div class="goods-filter__inner">
                                     <!-- start widget -->
                                     <div class="widget widget--search">
                                         <form class="form--horizontal" action="#" method="get">
@@ -84,8 +84,9 @@
                                         <ul class="list">
                                             @foreach ($categories as $category)
                                                 <li class="list__item">
-                                                    <a class="list__item__link" href="#">{{ $category->name }}</a>
-                                                    <span>(3)</span>
+                                                    <a class="list__item__link"
+                                                        href="{{ route('front.categoryfilter', ['category' => $category->id]) }}">{{ $category->name }}</a>
+                                                    <span> {{ $modelCounts[$category->id] }}</span>
                                                 </li>
                                             @endforeach
 
@@ -97,25 +98,26 @@
                                     <!-- start widget -->
                                     <div class="widget widget--price">
                                         <h4 class="h6 widget-title">Price</h4>
+                                        <form method="post" action="{{ route('front.pricefilter') }}">
+                                            @csrf
+                                            <div>
+                                                <input type="text" class="js-range-slider" name="my_range" value=""
+                                                    data-type="double" data-min="0" data-max="{{$maxprice}}" data-from="48"
+                                                    data-to="{{$maxprice}}" data-grid="false" data-skin="round" data-prefix="$"
+                                                    data-hide-from-to="true" data-hide-min-max="true" />
 
-                                        <div>
-                                            <input type="text" class="js-range-slider" name="my_range" value=""
-                                                data-type="double" data-min="0" data-max="500" data-from="48"
-                                                data-to="365" data-grid="false" data-skin="round" data-prefix="$"
-                                                data-hide-from-to="true" data-hide-min-max="true" />
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <input class="range-slider-min-value" type="text" value="48"
+                                                            name="min_value" readonly="readonly">
+                                                    </div>
 
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <input class="range-slider-min-value" type="text" value="48"
-                                                        name="min-value" readonly="readonly">
-                                                </div>
-
-                                                <div class="col-6">
-                                                    <input class="range-slider-max-value" type="text" value="365"
-                                                        name="max-value" readonly="readonly">
+                                                    <div class="col-6">
+                                                        <input class="range-slider-max-value" type="text" value="{{$maxprice}}"
+                                                            name="max_value" readonly="readonly">
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                     </div>
                                     <!-- end widget -->
                                     <!-- start widget -->
@@ -127,14 +129,17 @@
                                             </div>
 
                                             <div class="col-auto">
-                                                <a class="clear-filter" href="#">Clear all</a>
+                                                <a class="clear-filter" href="{{ route('front.shopcatalog') }}">Clear
+                                                    all</a>
                                             </div>
                                         </div>
                                     </div>
+                                </form>
+
                                     <!-- end widget -->
 
                                     <!-- end widget -->
-                                </div> --}}
+                                </div>
                             </aside>
                         </div>
 

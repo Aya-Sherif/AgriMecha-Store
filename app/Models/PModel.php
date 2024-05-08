@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class PModel extends Model
 {
@@ -40,5 +41,19 @@ class PModel extends Model
 
         return $relatedProducts;
     }
+    public static function getBestSellerProducts()
+{
+    // Join order_products, orders, and p_model tables to get total quantity and product names
+    $bestSellers = DB::table('order_products')
+        ->join('orders', 'order_products.order_id', '=', 'orders.id')
+        ->join('p_models', 'order_products.product_id', '=', 'p_models.id')
+        ->select('p_models.productname', 'order_products.product_id', DB::raw('SUM(order_products.quantity) as total_quantity'))
+        ->groupBy('order_products.product_id', 'p_models.productname')
+        ->orderByDesc('total_quantity')
+        ->limit(5)
+        ->get();
+
+    return $bestSellers;
+}
 
 }
