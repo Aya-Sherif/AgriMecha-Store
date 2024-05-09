@@ -84,7 +84,7 @@
         <div class="container">
             <div class="special-offer special-offer--style-1" data-aos="zoom-in" data-aos-duration="600"
                 data-aos-offset="70">
-                <h2 class="text text-center lazy" data-src="{{ asset('front') }}/img/special_offer_text_bg.jpg">
+                <h2 class="text text-center lazy" data-src="{{ asset('front') }}/img/WhatsApp Image 2024-05-09 at 11.10.37 PM (2).jpeg">
                     Special products for most farmers</h2>
             </div>
         </div>

@@ -2,7 +2,7 @@
 @section('content')
     <!-- start hero -->
     <div id="hero" class="jarallax" data-speed="0.7" data-img-position="50% 80%"
-        style="background-image: url({{ asset('front') }}/img/intro_img/1.jpg);">
+        style="background-image: url({{ asset('front') }}/img/markus-spiske-ZBgvVAVPeN8-unsplash.jpg);">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-7">

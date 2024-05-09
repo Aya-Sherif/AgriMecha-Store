@@ -43,8 +43,11 @@ class AdminController extends Controller
             $months[] = date('M', mktime(0, 0, 0, $orderCount->month, 1));
             $orderData[] = $orderCount->total_orders;
         }
+        $noorderslastweek=Order::getOrdersLastWeek();
+        $nowaitedorders=Order::getWaitedOrdersCount();
+        $orderStatusCountsPerMonth=Order::getOrderStatusCountsPerMonth();
         $BestSellerProducts = PModel::getBestSellerProducts();
 
-        return view('admin.index', compact('nousers', 'noorders', 'months', 'orderData', 'governorates', 'userCounts','BestSellerProducts'));
+        return view('admin.index', compact('nousers', 'noorders', 'months', 'orderData', 'governorates', 'userCounts','BestSellerProducts','noorderslastweek','nowaitedorders','orderStatusCountsPerMonth'));
     }
 }
