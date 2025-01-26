@@ -16,6 +16,12 @@ Key features include:
 
 ---
 
+## Demo
+
+Watch the full demo of the project on YouTube:  
+[E-Commerce Platform Demo](https://www.youtube.com/watch?v=DWaOWz7OM8M)
+---
+
 ## Features
 
 - **Portfolio Management**: Showcase the company’s information and achievements.
@@ -85,12 +91,6 @@ Ensure you have the following installed:
    http://localhost:8000
    ```
 
----
-
-## Demo
-
-Watch the full demo of the project on YouTube:  
-[E-Commerce Platform Demo](https://www.youtube.com/watch?v=DWaOWz7OM8M)
 
 ---
 
